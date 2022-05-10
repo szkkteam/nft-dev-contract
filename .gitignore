@@ -1,0 +1,19 @@
+yarn.lock
+node_modules/
+build/
+package-lock.json
+# env files
+.env_dev
+.env_bsc
+.env_kovan
+.env_mainnet
+
+# truffle
+build
+
+# typechain
+types
+
+# buidler
+artifacts
+cache
