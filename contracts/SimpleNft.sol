@@ -33,7 +33,6 @@ contract SimpleNft is ERC721A, Ownable, ReentrancyGuard {
     // Token variables
     uint256 private _devMintQuantity;
     uint256 private _whitelistMintQuantity;
-    mapping (address => uint256) public addressMinted;
 
 
     // Events
@@ -80,11 +79,10 @@ contract SimpleNft is ERC721A, Ownable, ReentrancyGuard {
         require(stage == STAGE_WHITELIST_MINT, "Mint not open yet");
         require(totalSupply() + quantity <= TOTAL_SUPPLY, "Total supply exceeded");
         require(_whitelistMintQuantity + quantity <= MAX_WHITELIST_MINT, "Whitelist mint quantity exceeded");
-        require(addressMinted[msg.sender] <= WHITELIST_MAX_MINT, "Address mint quantity exceeded");
+        require(_numberMinted(msg.sender) + quantity <= WHITELIST_MAX_MINT, "Address mint quantity exceeded");
         require(quantity <= WHITELIST_MAX_MINT, "Mint quantity exceeded");
         require(msg.value >= WHITELIST_MINT_PRICE * quantity, "Not enough ETH");
 
-        addressMinted[msg.sender] += quantity;
         _whitelistMintQuantity += quantity;
 
         _internalMint(msg.sender, quantity);
